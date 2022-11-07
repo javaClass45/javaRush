@@ -33,8 +33,7 @@ public class Solution {
             if (size[i] < min) {
                 System.out.println(i);
                 break;
-            }
-            else {
+            } else {
                 min = size[i];
             }
         }

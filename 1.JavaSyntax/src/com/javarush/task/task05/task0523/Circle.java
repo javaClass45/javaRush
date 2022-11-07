@@ -5,7 +5,7 @@ package com.javarush.task.task05.task0523;
 */
 
 public class Circle {
-   // public Color color;
+    // public Color color;
     Color color = new Color();
 
 

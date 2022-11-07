@@ -31,9 +31,9 @@ public class Solution {
 
         //напишите тут ваш код
 
-        int  count = 0;
+        int count = 0;
 
-        for (String str : list){
+        for (String str : list) {
 
             for (String comp : list) {
 
@@ -42,7 +42,7 @@ public class Solution {
                 }
             }
 
-            result.put(str,count);
+            result.put(str, count);
             count = 0;
 
         }

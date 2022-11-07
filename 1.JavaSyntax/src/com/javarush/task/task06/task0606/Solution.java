@@ -23,11 +23,11 @@ public class Solution {
         for (int i = 0; i < strNum.length(); i++) {
 
             if ((strNum.charAt(i) % 2) == 0) {
-                 ++even;
-        }else {
-                  ++odd;
+                ++even;
+            } else {
+                ++odd;
             }
-    }
+        }
         System.out.println("Even: " + even + " Odd: " + odd);
-}
+    }
 }

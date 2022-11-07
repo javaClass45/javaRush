@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Solution {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
     }
 
     static class MyException extends IOException {
@@ -17,10 +17,10 @@ public class Solution {
     static class MyException2 extends FileNotFoundException {
     }
 
-    static class MyException3 extends RuntimeException{
+    static class MyException3 extends RuntimeException {
     }
 
-    static class MyException4 extends ArrayIndexOutOfBoundsException{
+    static class MyException4 extends ArrayIndexOutOfBoundsException {
     }
 }
 

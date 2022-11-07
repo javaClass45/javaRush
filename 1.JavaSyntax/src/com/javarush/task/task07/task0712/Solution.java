@@ -1,7 +1,6 @@
 package com.javarush.task.task07.task0712;
 
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,10 +31,10 @@ public class Solution {
 
         min = size[0];
         for (int i = 1; i < size.length; i++) {
-        if (size[i] < min) {
-            min = size[i];
-            minIndex = i;
-        }
+            if (size[i] < min) {
+                min = size[i];
+                minIndex = i;
+            }
         }
 
 
@@ -54,5 +53,5 @@ public class Solution {
 
     }
 
-    }
+}
 

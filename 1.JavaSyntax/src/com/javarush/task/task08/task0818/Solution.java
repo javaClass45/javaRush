@@ -37,13 +37,10 @@ public class Solution {
         }
 
 
-
         System.out.println(map);
     }
 
     public static void main(String[] args) throws IOException {
-
-
 
 
     }

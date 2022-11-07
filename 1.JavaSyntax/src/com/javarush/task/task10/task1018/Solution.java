@@ -11,9 +11,9 @@ import java.util.Map;
 */
 
 public class Solution {
-    HashMap<Integer, String> map;
     static Integer index;
     static String name;
+    HashMap<Integer, String> map;
 
     public Solution() {
         this.map = new HashMap<Integer, String>();

@@ -10,7 +10,7 @@ public class Solution {
 
         //напишите тут ваш код
         for (int i = 0; i < 40; i++) {
-            System.out.println(text.subSequence(i,47));
+            System.out.println(text.subSequence(i, 47));
         }
     }
 

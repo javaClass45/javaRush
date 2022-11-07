@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /* 
 Количество букв
@@ -36,7 +35,7 @@ public class Solution {
 
         for (char abc : alphabet) {
             for (String str : list) {
-                for (char ch : str.toCharArray() ) {
+                for (char ch : str.toCharArray()) {
                     if (abc == ch) {
                         compare++;
                     }

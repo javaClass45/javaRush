@@ -5,10 +5,10 @@ package com.javarush.task.task10.task1014;
 */
 
 public class Solution {
-    public int A = 5;
     public static int B = 5;
     public static int C = 5;
     public static int D = 5;
+    public int A = 5;
 
     public static void main(String[] args) {
         Solution solution = new Solution();
