@@ -12,7 +12,8 @@ public class Solution {
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int[] array = new int[30];
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 15; i++) {
+            System.out.println("введите цифру:");
             array[i] = Integer.parseInt(reader.readLine());
         }
 
