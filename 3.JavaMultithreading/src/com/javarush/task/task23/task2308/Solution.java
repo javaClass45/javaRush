@@ -4,7 +4,18 @@ package com.javarush.task.task23.task2308;
 Рефакторинг, вложенные классы
 */
 
+//import com.test.stroki.Str;
+
 public class Solution {
+    public static final class Constants {
+        public static final String SERVER_IS_CURRENTLY_NOT_ACCESSIBLE = "The server is not currently accessible.";
+        public static final String USER_IS_NOT_AUTHORIZED = "The user is not authorized.";
+        public static final String USER_IS_BANNED = "The user is banned.";
+        public static final String ACCESS_IS_DENIED = "Access is denied.";
+    }
+
+
+
     public class ServerNotAccessibleException extends Exception {
         public ServerNotAccessibleException() {
             super("The server is currently not accessible.");
