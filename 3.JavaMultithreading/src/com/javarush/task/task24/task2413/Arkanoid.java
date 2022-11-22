@@ -11,6 +11,9 @@ public class Arkanoid {
     private Stand stand;
     private List<Brick> bricks;
 
+    public static Arkanoid game;
+
+
     public Arkanoid(int width, int height) {
         this.width = width;
         this.height = height;
@@ -60,4 +63,15 @@ public class Arkanoid {
     public void setBricks(List<Brick> bricks) {
         this.bricks = bricks;
     }
+
+    public void run() {
+
+    }
+
+    public void move() {
+
+    }
+
+
+
 }
