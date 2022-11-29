@@ -20,15 +20,47 @@ public class Ball extends BaseObject{
         super(x, y, radius);
     }
 
+
+//     Устанавливаем новое направление движения.
+//      Тут же вычисляем и новый вектор.
+//      Такой подход удобно использовать при отскоках от стен.
+
+    void setDirection(double direction) {
+        this.direction = direction;
+
+        double angel = Math.toRadians(direction);
+        dx = Math.cos(angel) * speed;
+        dy = -Math.sin(angel) * speed;
+    }
+
     @Override
     public void draw(Canvas canvas) {
-
+        canvas.setPoint(x, y, 'O');
     }
 
     @Override
     public void move() {
+        if (isFrozen) return;
+        x += dx;
+        y += dy;
+
+//        checkRebound(1, Arkanoid.game.getWidth(), 1, Arkanoid.game.getHeight() + 5);
+    }
+
+//     Запускам шарик.
+//     isFrozen = false.
+//     Пересчитываем вектор движения (dx,dy).
+    void start() {
+        this.setDirection(direction);
+        this.isFrozen = false;
+    }
+
+//    шарик может удариться о стенку.
+//    При этом он должен от нее отскочить.
+    void checkRebound(int minx, int maxx, int miny, int maxy) {
 
     }
+
 
     public double getSpeed() {
         return speed;
