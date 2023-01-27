@@ -1,6 +1,12 @@
 package com.javarush.task.task22.task2209;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 /* 
@@ -8,64 +14,48 @@ import java.util.Scanner;
 */
 
 public class Solution {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //...  "d:/j1/task2209.txt"
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String pathFile = null;
-        try {
-            pathFile = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String fileName = null;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            fileName = reader.readLine();
         }
 
+        String content = new String(Files.readAllBytes(Paths.get(fileName)), StandardCharsets.UTF_8);
+        String[] words = content.split(" ");
 
-        String str = null;
-        try {
-            str = inputSting(pathFile);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String[] arr = str.trim()
-                .split(" ");
-        StringBuilder result = getLine(arr);
+        StringBuilder result = getLine(words);
         System.out.println(result.toString());
     }
 
     public static StringBuilder getLine(String... words) {
+
         StringBuilder result = new StringBuilder();
-        ;
         if (words == null || words.length == 0) return result;
         if (words.length == 1 || words[0].equals("")) return result.append(words[0]);
 
+        ArrayList<String> wordsList = new ArrayList<>();
 
-
-
-        for (int i = 0; i < words.length - 1; i++) {
-            for (int j = (i + 1); j < words.length; j++) {
-                if (words[i].substring(words[i].length() - 1)
-                        .equalsIgnoreCase(words[j].substring(0,0))) {
-                    result.append(words[i]).append(" ").append(words[j]);
-                }
-                ;
-
-            }
-
+        wordsList.addAll(Arrays.asList(words));
+        while (wordsList.remove("")) {
+            wordsList.remove("");
         }
-
-
+        while (isYes(wordsList)) {
+            Collections.shuffle(wordsList);
+        }
+        for (String word : wordsList) {
+            result.append(word).append(" ");
+        }
+        result.deleteCharAt(result.length() - 1);
         return result;
     }
 
-    public static String inputSting(String s) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File(s));
-        StringBuilder sb = new StringBuilder();
-        while (scanner.hasNext()) {
-            sb.append(scanner.nextLine());
+    public static boolean isYes(ArrayList<String> wordsList) {
+        for (int i = 0; i < wordsList.size() - 1; i++) {
+            String firstWord = wordsList.get(i).toLowerCase();
+            String secondWord = wordsList.get(i + 1).toLowerCase();
+            if (firstWord.charAt(firstWord.length() - 1) != secondWord.charAt(0)) return true;
         }
-        scanner.close();
-        return String.valueOf(sb);
+        return false;
     }
-
-
 }
