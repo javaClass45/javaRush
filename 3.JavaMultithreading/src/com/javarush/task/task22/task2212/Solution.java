@@ -4,164 +4,61 @@ package com.javarush.task.task22.task2212;
 Проверка номера телефона
 */
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
     public static boolean checkTelNumber(String telNumber) {
-        if (telNumber==null || telNumber.isEmpty()){
-            return false;
-        }
-        int numsQuantity = numsQuantity(telNumber);
+if(telNumber == null || telNumber.equals("")) return false;
+//        String regexp = "(^\\+?(\\d{12}$))|"
+//                +"(^\\+(\\d{2}\\(\\d{3}\\)\\d{7})$)|"
+//                +"(^\\(\\d{3}\\)\\d{7}$)|"
+//                +"(^\\d\\(\\d{3}\\)\\d{6}$)";
+//
+//        String regexp = "(^\\+?(\\d{12}$))|"
+//                +"(^\\+(\\d{2}\\(\\d{3}\\)\\d{7})$)|"
+//                +"(^\\(\\d{3}\\)\\d{7}$)|"
+//                +"((^\\d\\(\\d{3}\\)\\d{6}$)|(^\\d+\\(\\d{3}\\)\\d+$))";
+//
+//
+//        String regexp = "(^\\+\\d{12}$)|(^\\+\\(\\d{3}\\)\\d{9}$)|"
+//                +"((^\\+\\d{2}\\(\\d{3}\\)\\d{7}$)|(^\\+\\d+\\(\\d{3}\\)\\d+$))|"
+//                +"(^\\(\\d{3}\\)\\d{7}$)|"
+//                +"((^\\d\\(\\d{3}\\)\\d{6}$)|(^\\d+\\(\\d{3}\\)\\d+$))|"
+//                +"((([+]|[0-9]{12}|[(]|[)])$)&(^\\+\\d{12}$))|(^\\d{10}$)";
 
-        if (telNumber.startsWith("+") && numsQuantity!=12){
-            return false;
-        }
-        else if ((startsWithDigit(telNumber) || telNumber.startsWith("(")) && numsQuantity!=10){
-            return false;
-        }
-        else if (telNumber.contains("[a-z]")){
-            return false;
-        }
-        else if (!endsWithDigit(telNumber)){
-            return false;
-        }
-        else if (!isMinusQuantityAndOrderOk(telNumber)){
-            return false;
-        }
 
-        else if (telNumber.contains("(") || telNumber.contains(")")){
-            if (!hasTwoBrackets(telNumber)){
-                return false;
-            }
-            else if (!rightBracketsOrder(telNumber)){
-                return false;
-            }
-            else if (!bracketsLeftThanMinus(telNumber)){
-                return false;
-            }
-        }
 
-        return true;
+        String regexp = "(^\\+\\d{12}$)|(^\\+\\(\\d{3}\\)\\d{9}$)|"
+                +"((^\\+\\d{2}\\(\\d{3}\\)\\d+$)|"
+                +"(^\\+\\d+\\(\\d{3}\\)\\d+$))|"
+                +"(^\\(\\d{3}\\)\\d{7}$)|"
+                +"((^\\d\\(\\d{3}\\)\\d{6}$)|(^\\d+\\(\\d{3}\\)\\d+$))|"
+                +"((([+]|[0-9]{12}|[(]|[)])$)&(^\\+\\d{12}$))|(^\\d{10}$)";
+
+        return telNumber.matches(regexp);
     }
 
-
-    public static int numsQuantity(String number){
-        int quantity = 0;
-        char[] chars = number.toCharArray();
-        for (char ch : chars){
-            if (Character.isDigit(ch)){
-                quantity++;
-            }
-        }
-        return quantity;
-    }
-
-    public static boolean hasTwoBrackets(String number){
-        char[] chars = number.toCharArray();
-        int rightBracketQuantity = 0;
-        int leftBracketQuantity = 0;
-        for (char ch : chars){
-            if (ch == '('){
-                leftBracketQuantity++;
-            }
-            else if (ch == ')'){
-                rightBracketQuantity++;
-            }
-        }
-        if (rightBracketQuantity == 1 && leftBracketQuantity == 1){
-            return true;
-        }
-        else return false;
-    }
-
-    public static boolean rightBracketsOrder (String number){
-        int numberOfFirst = number.indexOf('(');
-        int numberOfSecond = number.indexOf(')');
-        int first = numberOfFirst+1;
-        int second = numberOfFirst+2;
-        int third =numberOfFirst+3;
-        char f = number.charAt(first);
-        char s = number.charAt(second);
-        char t = number.charAt(third);
-        if ((numberOfSecond-numberOfFirst)!=4){
-            return false;
-        }
-        else if (!Character.isDigit(f) || !Character.isDigit(s) ||
-                !Character.isDigit(t)){
-            return false;
-        }
-        else return true;
-    }
-
-    public static boolean bracketsLeftThanMinus(String number){
-        if (number.contains("-")) {
-            if (number.indexOf(')') < number.indexOf('-')) {
-                return true;
-            } else return false;
-        }
-        else return true;
-    }
-    public static boolean isMinusQuantityAndOrderOk (String number){
-        Pattern p = Pattern.compile("-");
-        Matcher m = p.matcher(number);
-        int matches = 0;
-        while (m.find()) {
-            matches++;
-        }
-        if (matches==0){
-            return true;
-        }
-        if(number.startsWith("-")){
-            return false;
-        }
-        int firstMinusNumber = number.indexOf("-");
-        int numberAfterFirstMinus = firstMinusNumber+1;
-        char first = number.charAt(firstMinusNumber);
-        char second = number.charAt(numberAfterFirstMinus);
-        if (matches>2){
-            return false;
-        }
-        else if ((matches == 2) && (first == second)){
-            return false;
-        }
-        else return true;
-    }
-    public static boolean endsWithDigit (String tel){
-        char endLetter = tel.charAt(tel.length()-1);
-        if (Character.isDigit(endLetter)){
-            return true;
-        }
-        else return false;
-    }
-    public static boolean startsWithDigit (String tel){
-        char firstLetter = tel.charAt(0);
-        if (Character.isDigit(firstLetter)){
-            return true;
-        }
-        else return false;
-
-    }
 
 
     public static void main(String[] args) {
-        String[] s = {
-//                "",
-                "+380501234567",
-                "+38(050)1234567",
-//                "+38050123-45-67",
-                "050123-4567",
-                "+38)050(1234567",
-                "+38(050)1-23-45-6-7",
-                "050ххх4567",
-                "0501236",
-                "(0)501234567",
-//                "+38(050)1-23-45--6-7",
-                "+3-8(050)1-23-45--6-7",
-                "+38050123-4567-"
-        };
-
-        for (String t : s) System.out.printf("%25s :   %5s %n",t,checkTelNumber(t));
-
+        String[] _true = {"+380501234567", "0501234567", "(050)1234567", "+(380)501234567", "+3(805)01234567", "+38(050)1234567",
+                "+380(501)234567", "+3805(012)34567", "+38050(123)4567", "+380501(234)567", "+3805012(345)67", "+38050123(456)7",
+                "(050)1234567", "0(501)234567", "05(012)34567", "050(123)4567", "0501(234)567", "05012(345)67", "050123(456)7",};
+        String[] _false = {"+38050123456", "380501234567", "(380)501234567", "+380(50()12)34567", "+380(501)23(456)7", "38050123(456)7",
+                "+380501234(567)", "+(38050123456)7", "050!234567", "+050(123)4567", "+380501(2-3)5674", ")050(1234567", "+(3)8050123456",
+                "38050+123456", "+38)050(1234567", "+38(050)123-45-67", "050ххх4567", "050123456", "(0)501234567", "5", "+(050)", "+()()()()()()", ""};
+        for(int i = 0; i < 2; i++) {
+            System.out.println("\nВсё, что ниже, должно быть " + (i == 0));
+            for (String str : _true) {
+                System.out.println(str + "                  = ".substring(str.length(), 20) + checkTelNumber(str) + (checkTelNumber(str) == (i == 0) ? "" : "   X"));
+            }
+            _true = _false;
+        }
+        System.out.println("null" + "              = " + checkTelNumber(null));
     }
+
+
+
 }
