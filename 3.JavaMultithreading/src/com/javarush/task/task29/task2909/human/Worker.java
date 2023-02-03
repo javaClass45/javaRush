@@ -15,7 +15,7 @@ public class Worker extends Human {
     }
 
     private void work() {
-
+        
     }
 
 
