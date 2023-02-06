@@ -23,7 +23,11 @@ public class Worker extends Human {
         return salary;
     }
 
-    public void setSlr(double salary) {
+//    public void setSlr(double salary) {
+//        this.salary = salary;
+//    }
+
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 }

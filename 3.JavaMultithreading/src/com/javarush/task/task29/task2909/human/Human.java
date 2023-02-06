@@ -85,4 +85,15 @@ public class Human implements Alive {
     public void live() {
 
     }
+
+
+   public String getPosition() {
+       return "Человек";
+    }
+
+    public void printData() {
+        System.out.println(getPosition() + ": " + name);
+    }
+
+
 }
