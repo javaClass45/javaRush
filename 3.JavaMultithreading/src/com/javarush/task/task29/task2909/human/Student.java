@@ -52,7 +52,13 @@ public class Student extends UniversityPerson {
         setAverageGrade(getAverageGrade() + delta);
     }
 
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
 
+    public double getAverageGrade() {
+        return averageGrade;
+    }
 
 
 //    public void setValue(String name, double value) {
@@ -67,9 +73,6 @@ public class Student extends UniversityPerson {
 //    }
 
 
-    public void setAverageGrade(double averageGrade) {
-        this.averageGrade = averageGrade;
-    }
 
 
 
@@ -81,9 +84,6 @@ public class Student extends UniversityPerson {
         endOfSession = date;
     }
 
-    public double getAverageGrade() {
-        return averageGrade;
-    }
 
 
     public int getCourse() {
