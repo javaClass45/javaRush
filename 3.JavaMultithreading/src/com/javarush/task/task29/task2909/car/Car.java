@@ -2,7 +2,7 @@ package com.javarush.task.task29.task2909.car;
 
 import java.util.Date;
 
-public class Car {
+public abstract class Car {
     static public final int TRUCK = 0;
     static public final int SEDAN = 1;
     static public final int CABRIOLET = 2;
@@ -24,7 +24,6 @@ public class Car {
     }
 
 
-
     public static Car create(int type, int numberOfPassengers) {
         Car instance;
         if (type == TRUCK) {
@@ -40,9 +39,12 @@ public class Car {
 
     public void fill(double numberOfLiters) {
         if (numberOfLiters < 0) throw new RuntimeException();
-
         fuel += numberOfLiters;
+    }
 
+    private boolean canPassengersBeTransferred() {
+        if (isDriverAvailable() && fuel > 0) return true;
+        return false;
     }
 
     public boolean isSummer(Date date, Date summerStart, Date summerEnd) {
@@ -69,11 +71,7 @@ public class Car {
     }
 
     public int getNumberOfPassengersCanBeTransferred() {
-        if (!isDriverAvailable())
-            return 0;
-        if (fuel <= 0)
-            return 0;
-
+        if (!canPassengersBeTransferred()) return 0;
         return numberOfPassengers;
     }
 
@@ -86,12 +84,9 @@ public class Car {
     }
 
     public void startMoving() {
-        if (numberOfPassengers > 0) {
-            fastenPassengersBelts();
-            fastenDriverBelt();
-        } else {
-            fastenDriverBelt();
-        }
+        if (numberOfPassengers > 0) fastenPassengersBelts();
+        fastenDriverBelt();
+
     }
 
     public void fastenPassengersBelts() {
@@ -100,11 +95,5 @@ public class Car {
     public void fastenDriverBelt() {
     }
 
-    public int getMaxSpeed() {
-        if (type == TRUCK)
-            return 80;
-        if (type == SEDAN)
-            return 120;
-        return 90;
-    }
+    public abstract int getMaxSpeed();
 }
