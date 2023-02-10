@@ -4,10 +4,9 @@ public class User {
     private String name;
     private String surname;
     private int age;
+    private boolean man;
 
-    private String country;
-    private String city;
-    private House house;
+    private Address address;
 
     private Work work;
 
@@ -20,7 +19,7 @@ public class User {
     public void printInfo() {
         System.out.println("Имя: " + this.getName());
         System.out.println("Фамилия: " + this.getSurname());
-
+    
 
     }
     public void printAdditionalInfo() {
@@ -29,6 +28,16 @@ public class User {
         else
             System.out.println("Пользователь старше 16 лет");
     }
+
+
+    public boolean isMan() {
+        return man;
+    }
+
+    public void setMan(boolean man) {
+        this.man = man;
+    }
+
 
     public String getName() {
         return name;
@@ -54,24 +63,30 @@ public class User {
         this.age = age;
     }
 
+    public String getAddress() {
+        return address.getCountry() + " " + address.getCity() + " " + address.getHouse();
+    }
+
+
+
+    public String getBoss() {
+        return work.getBoss();
+    }
+
     public String getCountry() {
-        return country;
+        return address.getCountry();
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.address.setCountry(country);
     }
 
     public String getCity() {
-        return city;
+        return address.getCity();
     }
 
     public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return country + " " + city + " " + house.house;
+        this.address.setCity(city);
     }
 
     public Work getWork() {
