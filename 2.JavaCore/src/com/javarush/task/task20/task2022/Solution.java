@@ -7,10 +7,12 @@ import java.io.*;
 */
 
 public class Solution implements Serializable, AutoCloseable {
-    private FileOutputStream stream;
+    private transient FileOutputStream stream;
+    String fileName;
 
     public Solution(String fileName) throws FileNotFoundException {
         this.stream = new FileOutputStream(fileName);
+        this.fileName = fileName;
     }
 
     public void writeObject(String string) throws IOException {
@@ -21,12 +23,11 @@ public class Solution implements Serializable, AutoCloseable {
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-        out.close();
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        in.close();
+        stream = new FileOutputStream(this.fileName, true);
     }
 
     @Override
@@ -35,7 +36,23 @@ public class Solution implements Serializable, AutoCloseable {
         stream.close();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        Solution solution1 = new Solution("D:/j1/task2022.txt");
+        solution1.writeObject("one");
+        solution1.close();
 
+        FileOutputStream fileOutputStream = new FileOutputStream("D:/j1/task2022.txt");
+        ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
+        outputStream.writeObject(solution1);
+        outputStream.flush();
+        outputStream.close();
+
+        FileInputStream fileInputStream = new FileInputStream("D:/j1/task2022.txt");
+        ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
+        Solution solution2 = (Solution) inputStream.readObject();
+        inputStream.close();
+        solution2.writeObject("two");
+        solution2.writeObject("three");
+        solution2.close();
     }
 }
