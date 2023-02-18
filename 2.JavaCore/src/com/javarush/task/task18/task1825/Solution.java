@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 /* 
 Собираем файл
 */
+/*практика показала - сортировка в этой задаче не главное*/
 
 public class Solution {
     public static void main(String[] args) throws IOException {
@@ -37,7 +38,7 @@ public class Solution {
 //            }
 //        });
 
-        files.forEach(System.out::println);
+//        files.forEach(System.out::println);
         //Выходной файловый поток
         String outputFileName = files.get(0).split(".part")[0];
         FileOutputStream fileOutputStream = new FileOutputStream(outputFileName);
@@ -61,4 +62,26 @@ public class Solution {
 *  Вам удалось ее решить с 1 попытки.
 *  Среднее количество попыток для этой задачи 3.47.
 *  Всего эту задачу решили 19335 учеников.*/
+/*
+
+        Lion.avi.part37
+        Lion.avi.part7
+        Lion.avi.part27
+        Lion.avi.part17
+        Lion.avi.part1
+        Lion.avi.part3
+        Lion.avi.part2
+        Lion.avi.part11
+        end
+
+        Lion.avi.part1
+        Lion.avi.part11
+        Lion.avi.part17
+        Lion.avi.part2
+        Lion.avi.part27
+        Lion.avi.part3
+        Lion.avi.part37
+        Lion.avi.part7
+
+*/
 
