@@ -3,7 +3,7 @@ package com.javarush.task.task26.task2611;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Producer implements Runnable {
-    private ConcurrentHashMap<String, String> map ;
+    private ConcurrentHashMap<String, String> map;
 
     public Producer(ConcurrentHashMap<String, String> map) {
         this.map = map;
@@ -13,7 +13,7 @@ public class Producer implements Runnable {
     public void run() {
         Thread currentThread = Thread.currentThread();
         int i = 1;
-        while (!currentThread.isInterrupted()) {
+
             try {
                 while (true) {
                     map.put("" + i, "Some text for " + i);
@@ -23,10 +23,7 @@ public class Producer implements Runnable {
             } catch (InterruptedException e) {
                 System.out.println(String.format("[%s] thread was terminated",
                         Thread.currentThread().getName()));
-                currentThread.interrupt();
+//                currentThread.interrupt();
             }
-
-
-        }//while
     }
 }
