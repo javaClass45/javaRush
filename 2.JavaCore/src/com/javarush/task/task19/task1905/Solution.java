@@ -62,7 +62,7 @@ public class Solution {
             String tel = "callto://" + contact.getPhoneNumber().replaceAll("[()-]","");
             return tel;
         }
- 
+
     } //DA
 
     public static interface RowItem {
