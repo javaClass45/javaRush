@@ -34,7 +34,8 @@ public class Server {
         public void run() {
         
         }
-        private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException {
+        private String serverHandshake(Connection connection) throws IOException,
+                ClassNotFoundException {
             while (true) {
                 connection.send(new Message(MessageType.NAME_REQUEST));
                 Message answer = connection.receive();
@@ -48,6 +49,29 @@ public class Server {
                             return answer.getData();
                         }
                     }
+                }
+            }
+        }
+
+
+        private void notifyUsers(Connection connection, String userName) throws IOException {
+            for (Map.Entry<String, Connection> entry : connectionMap.entrySet()) {
+                if (!entry.getKey().equals(userName)) {
+                    connection.send(new Message(MessageType.USER_ADDED, entry.getKey()));
+                }
+            }
+        }
+
+
+        private void serverMainLoop(Connection connection, String userName) throws IOException,
+                ClassNotFoundException {
+            while (true) {
+                Message message = connection.receive();
+                if (message != null && message.getType() == MessageType.TEXT) {
+                    sendBroadcastMessage(new Message(MessageType.TEXT, userName
+                            + ": " + message.getData()));
+                } else {
+                    ConsoleHelper.writeMessage("Error!");
                 }
             }
         }
