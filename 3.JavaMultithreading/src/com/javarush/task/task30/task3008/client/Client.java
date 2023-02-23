@@ -95,7 +95,7 @@ public class Client extends Thread {
         }
 
         protected void informAboutDeletingNewUser(String userName) {
-            ConsoleHelper.writeMessage("Ladies and Gentleman " + userName + " has left the building");
+            ConsoleHelper.writeMessage("Ladies and Gentleman " + userName + " has left the chatroom");
         }
 
         protected void notifyConnectionStatusChanged(boolean clientConnected) {
