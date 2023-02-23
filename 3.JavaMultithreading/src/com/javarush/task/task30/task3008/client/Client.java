@@ -82,33 +82,76 @@ public class Client extends Thread {
         client.run();
     }
 
-    
+
+    public class SocketThread extends Thread {
+
+        protected void processIncomingMessage(String message) {
+            ConsoleHelper.writeMessage(message);
+        }
+
+        protected void informAboutAddingNewUser(String userName) {
+            ConsoleHelper.writeMessage("User has enter the chat " + userName);
+        }
+
+        protected void informAboutDeletingNewUser(String userName) {
+            ConsoleHelper.writeMessage("Ladies and Gentleman " + userName + " has left the building");
+        }
+
+        protected void notifyConnectionStatusChanged(boolean clientConnected) {
+            synchronized (Client.this) {
+                Client.this.clientConnected = clientConnected;
+                Client.this.notify();
+            }
+        }
+
+        protected void clientHandshake() throws IOException, ClassNotFoundException {
+            Message message;
+
+            while (!clientConnected) {
+                try {
+                    message = connection.receive();
+                } catch (ClassNotFoundException e) {
+                    throw new IOException("Unexpected MessageType");
+                }
+                if (message.getType() == MessageType.NAME_REQUEST) {
+                    connection.send(new Message(MessageType.USER_NAME, getUserName()));
+                } else {
+                    if (message.getType() == MessageType.NAME_ACCEPTED) {
+                        notifyConnectionStatusChanged(true);
+                    } else throw new IOException("Unexpected MessageType");
+                }
+
+            }
+        }
+
+        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+            Message message;
+
+            while (true) {
+
+                try {
+                    message = connection.receive();
+                } catch (Exception e) {
+                    break;
+                }
+                if (message.getType() == MessageType.TEXT) processIncomingMessage(message.getData());
+                else {
+                    if (message.getType() == MessageType.USER_ADDED) informAboutAddingNewUser(message.getData());
+                    else {
+                        if (message.getType() == MessageType.USER_REMOVED) informAboutDeletingNewUser(message.getData());
+                        else break;
+                    }
+                }
+
+            }
+            throw new IOException("Unexpected MessageType");
+
+        }
 
 
-   public class SocketThread extends Thread {
-
-       protected void processIncomingMessage(String message) {
-           ConsoleHelper.writeMessage(message);
-       }
-
-       protected void informAboutAddingNewUser(String userName) {
-           ConsoleHelper.writeMessage("User has enter the chat " + userName);
-       }
-
-       protected void informAboutDeletingNewUser(String userName) {
-           ConsoleHelper.writeMessage("Ladies and Gentleman " + userName + " has left the building");
-       }
-
-       protected void notifyConnectionStatusChanged(boolean clientConnected) {
-           synchronized (Client.this) {
-               Client.this.clientConnected = clientConnected;
-               Client.this.notify();
-           }
-       }
 
 
-
-    }
+    }// SocketThread
 
 
 }
