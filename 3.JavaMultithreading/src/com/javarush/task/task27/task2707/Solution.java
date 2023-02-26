@@ -10,6 +10,7 @@ package com.javarush.task.task27.task2707;
 
 public class Solution {
     public void someMethodWithSynchronizedBlocks(Object obj1, Object obj2) {
+
         synchronized (obj1) {
             try {
                 Thread.sleep(100);
@@ -22,22 +23,19 @@ public class Solution {
         }
     }
 
-    public static boolean isLockOrderNormal(final Solution solution, final Object o1, final Object o2) throws Exception {
+    public static boolean isLockOrderNormal(final Solution solution,
+                                            final Object o1,
+                                            final Object o2) throws Exception {
         //do something here
 
-        solution.someMethodWithSynchronizedBlocks(o1,o2);
-        Thread t1 = new Thread()
-        {
-            public void run()
-            {
-                synchronized (o2)
-                {
-                    synchronized (o1)
-                    {
+        solution.someMethodWithSynchronizedBlocks(o1, o2);
+        Thread t1 = new Thread() {
+            public void run() {
+                synchronized (o1) {
+                    synchronized (o2) {
                         try {
-                            Thread.sleep (100);
-                        }catch (Exception e)
-                        {
+                            Thread.sleep(100);
+                        } catch (Exception e) {
                         }
                     }
                 }
@@ -45,11 +43,9 @@ public class Solution {
         };
         t1.start();
 
-        if(Thread.State.BLOCKED.equals(t1.getState()))
-        {
+        if (Thread.State.BLOCKED.equals(t1.getState())) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     public static void main(String[] args) throws Exception {
