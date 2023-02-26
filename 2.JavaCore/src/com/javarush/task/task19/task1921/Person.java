@@ -3,8 +3,8 @@ package com.javarush.task.task19.task1921;
 import java.util.Date;
 
 public class Person {
-    private final String name;
-    private final Date birthDate;
+    private String name;
+    private Date birthDate;
 
     public Person(String name, Date birthDate) {
         this.name = name;
