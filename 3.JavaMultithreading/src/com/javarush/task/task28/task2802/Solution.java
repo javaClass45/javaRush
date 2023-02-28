@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 Пишем свою ThreadFactory
 */
 
-//solved but: - "Неизвестная ошибка во время проверки задания."
+//solved but: - "Неизвестная ошибка во время проверки задания.", after update JR-plagin
 
 public class Solution {
 
