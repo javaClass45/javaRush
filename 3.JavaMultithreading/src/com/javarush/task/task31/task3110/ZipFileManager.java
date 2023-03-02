@@ -1,11 +1,9 @@
 package com.javarush.task.task31.task3110;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class ZipFileManager {
@@ -24,24 +22,22 @@ public class ZipFileManager {
         if (Files.notExists(zipDirectory))
             Files.createDirectories(zipDirectory);
 
-        ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-        ZipEntry zipEntry = new ZipEntry(source.getFileName().toString());
-        zipOutputStream.putNextEntry(zipEntry);
+        try (ZipOutputStream out = new ZipOutputStream(Files.newOutputStream(zipFile))) {
+            ZipEntry zipEntry = new ZipEntry(source.getFileName().toString());
+            out.putNextEntry(zipEntry);
 
-        InputStream inputStream = new ZipInputStream(Files.newInputStream(source));
+//        try(InputStream in = new FileInputStream(String.valueOf(source))){
+            try (InputStream in = Files.newInputStream(source)) {
+//            in.transferTo(out);
+                byte[] buffer = new byte[8 * 1024];
+                int lengths;
+                while ((lengths = in.read(buffer)) > 0) {
+                    out.write(buffer, 0, lengths);
+                }
+            }
+            out.closeEntry();
+        }
 
-        copyData(inputStream, zipOutputStream);
-        zipOutputStream.closeEntry();
-        inputStream.close();
-        zipOutputStream.close();
-    }
-
-    private void copyData(InputStream in, OutputStream out) throws Exception {
-      byte[] buf = new byte[8192];
-    int length;
-    while ((length = in.read(buf)) != -1) {
-        out.write(buf, 0, length);
-    }
     }
 
 

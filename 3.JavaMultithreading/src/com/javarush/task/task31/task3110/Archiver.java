@@ -3,8 +3,8 @@ package com.javarush.task.task31.task3110;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-//d:/j1/arc.zip
-//d:/j1/test.txt
+//  d:/j1/arc.zip
+//  d:/j1/text.txt
 
 public class Archiver {
     public static void main(String[] args) throws Exception {
