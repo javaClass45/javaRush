@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Solution {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         class EmulatorThreadFactoryTask implements Runnable {
             @Override
             public void run() {
@@ -26,6 +26,7 @@ public class Solution {
         Thread thread2 = new Thread(group2, new EmulatorThreadFactoryTask());
 
         thread.start();
+//        thread.join(); // ????????????
         thread2.start();
     }
 
@@ -43,22 +44,25 @@ public class Solution {
     }
 
     public static class AmigoThreadFactory implements ThreadFactory {
-        static final AtomicInteger poolNumber = new AtomicInteger(1);
-        final ThreadGroup group;
-        final AtomicInteger threadNumber = new AtomicInteger(1);
-        final String namePrefix;
+        private static final AtomicInteger pN = new AtomicInteger(1);
+        private final ThreadGroup group;
+        private final AtomicInteger tN = new AtomicInteger(1);
+        private final String nP;
 
-        AmigoThreadFactory() {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
-            namePrefix = group.getName() + "-pool-" + poolNumber.getAndIncrement() + "-thread-";
+        public AmigoThreadFactory() {
+            group = Thread.currentThread().getThreadGroup();
+            nP = group.getName() + "-pool-" + pN.getAndIncrement() + "-thread-";
         }
         @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(group, r,
-                    namePrefix + threadNumber.getAndIncrement() ,0);
-            if (t.isDaemon()) t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY) t.setPriority(Thread.NORM_PRIORITY);
+                    nP + tN.getAndIncrement(),
+                    0);
+            if (t.isDaemon())
+                t.setDaemon(false);
+            if (t.getPriority() != Thread.NORM_PRIORITY)
+                t.setPriority(Thread.NORM_PRIORITY);
+
             return t;
         }
     }
