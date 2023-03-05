@@ -1,11 +1,10 @@
 package com.javarush.task.task31.task3110.command;
 
-
-import static com.javarush.task.task31.task3110.ConsoleHelper.writeMessage;
+import com.javarush.task.task31.task3110.ConsoleHelper;
 
 public class ExitCommand implements Command {
     @Override
     public void execute() throws Exception {
-        writeMessage("До встречи!");
+        ConsoleHelper.writeMessage("До встречи!");
     }
 }
