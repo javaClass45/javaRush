@@ -12,93 +12,119 @@ import java.util.*;
 
 public class Solution {
 
-    public static long[] getNumbers(long N) {
-        long[] result = null;
-        TreeSet<Long> numbers = new TreeSet<>();
-        numbers.add(0L);
-        //Array of degrees
-        final int SIZE = 12;
-        long[][] powLst = new long[SIZE][SIZE];
 
-        //Here lies the slicing of numbers
-        int[] lst = new int[20];
+    private static long S;
+    private static int N;
+    private static int[] digitsMultiSet;
+    private static int[] testMultiSet;
 
+    private static List<Long> results;
+    private static long maxPow;
+    private static long minPow;
 
-        label:
-        for (long i = 1; i < N; i++) {
-            // 1. Reject numbers whose sum of digits is the same (reduce to 200,000  variants or less)
-            // 2. Get the slicing of numbers in the form of an array
-            long x = i;
-            int lenCount = 0;
-            int current;
-            int last = Integer.MAX_VALUE;
-            while (x != 0) {
-                current = (int) (x % 10);
-                if ((current != 0 && last != 0) && last < current)
-                    continue label;
-                last = current;
-                lst[lenCount] = current;
-                x = x / 10;
-                lenCount++;
-            }
-
-            //3. We consider the degree, and fill in the table of degrees
-            //Find the sum of the powers of the digits of the number, for example, 037 from point 2 was received here
-            long summa1 = 0;
-            for (int j = 0; j < lenCount; j++) {
-                if (powLst[lst[j]][lenCount] == 0) {        //If there is no value in the degrees array yet
-                    long a1 = lst[j];
-                    if (a1 != 0 && a1 != 1) {          //If the number is 0 or 1, then there is no point in counting the degree
-                        long a2 = lst[j];
-                        for (int jj = 1; jj < lenCount; jj++) // Calculate degree
-                            a1 *= a2;
-                    }
-                        powLst[lst[j]][lenCount] = a1;         //Add a new value to the degrees array
-                }
-                summa1 += powLst[lst[j]][lenCount];
-            }
+    private static long[][] pows;
 
 
-            //4. Get an array of numbers
-            long xx = summa1;
-            lenCount = 0;
-            while (xx != 0) {
-                lst[lenCount] = (int) (xx % 10);
-                lenCount++;
-                xx = xx / 10;
-            }
 
-            //5. From the resulting amount we take the sum of degrees, to check for the armstrong number
-            long summa2 = 0;
-            for (int j = 0; j < lenCount; j++) {
-                if (powLst[lst[j]][lenCount] == 0) {    //If there is no value in the degrees array yet
-                    long a1 = lst[j];
-                    if (a1 != 0 && a1 != 1) {          //If the number is 0 or 1, then there is no point in counting the degree
-                        long a2 = lst[j];
-                        for (int jj = 1; jj < lenCount; jj++) // Calculate degree
-                            a1 *= a2;
-                    }
-                    powLst[lst[j]][lenCount] = a1;      //Add a new value to the degrees array
-                }
-                summa2 += powLst[lst[j]][lenCount];
-            }
+    public static long[] getNumbers(long upperLimit) {
+        if (upperLimit <= 1) return new long[0];
 
-            //6. Add a result
-            if (summa1 == summa2 && summa1 < N)
-                numbers.add(summa1);
-        }//   label:
-        result = new long[numbers.size()];
+        S = upperLimit;
+        List<Long> armstrongList = generate(String.valueOf(S).length() + 1);
+        long[] result = new long[armstrongList.size()];
 
-        int count = 0;
-        for (Long l : numbers) {
-            result[count++] = l;
+        for (int i = 0; i < armstrongList.size(); i++) {
+            result[i] = armstrongList.get(i);
         }
         return result;
     }
 
+    private static void genPows(int N) {
+        if (N > 20) throw new IllegalArgumentException();
+        pows = new long[10][N + 1];
+        for (int i = 0; i < pows.length; i++) {
+            long p = 1;
+            for (int j = 0; j < pows[i].length; j++) {
+                pows[i][j] = p;
+                p *= i;
+            }
+        }
+    }
+
+    private static boolean check(long pow) {
+        if (pow >= maxPow) return false;
+        if (pow < minPow) return false;
+
+        for (int i = 0; i < 10; i++) {
+            testMultiSet[i] = 0;
+        }
+
+        while (pow > 0) {
+            int i = (int) (pow % 10);
+            testMultiSet[i]++;
+            if (testMultiSet[i] > digitsMultiSet[i]) return false;
+            pow = pow / 10;
+        }
+
+        for (int i = 0; i < 10; i++) {
+            if (testMultiSet[i] != digitsMultiSet[i]) return false;
+        }
+
+        return true;
+    }
+
+    private static void search(int digit, int unused, long pow) {
+        if (pow >= maxPow) return;
+
+        if (digit == -1) {
+            if (check(pow) && pow < S) results.add(pow);
+            return;
+        }
+
+        if (digit == 0) {
+            digitsMultiSet[digit] = unused;
+            search(digit - 1, 0, pow + unused * pows[digit][N]);
+        } else {
+            // Check if we can generate more than minimum
+            if (pow + unused * pows[digit][N] < minPow) return;
+
+            long p = pow;
+            for (int i = 0; i <= unused; i++) {
+                digitsMultiSet[digit] = i;
+                search(digit - 1, unused - i, p);
+                if (i != unused) {
+                    p += pows[digit][N];
+                    // Check maximum and break the loop - doesn't help
+                    // if (p >= maxPow) break;
+                }
+            }
+        }
+    }
+
+    private static List<Long> generate(int maxN) {
+        if (maxN >= 21) throw new IllegalArgumentException();
+
+        genPows(maxN);
+        results = new ArrayList<>();
+        digitsMultiSet = new int[10];
+        testMultiSet = new int[10];
+
+        for (N = 1; N < maxN; N++) {
+            minPow = (long) Math.pow(10, N - 1);
+            maxPow = (long) Math.pow(10, N);
+
+            search(9, N, 0);
+        }
+
+        Collections.sort(results);
+
+        return results;
+    }
+
+
     public static void main(String[] args) {
         long a = System.currentTimeMillis();
-        System.out.println(Arrays.toString(getNumbers(1000L)));
+        System.out.println(Arrays.toString(getNumbers(1000)));
         long b = System.currentTimeMillis();
         System.out.println("memory " + (Runtime.getRuntime().totalMemory()
                 - Runtime.getRuntime().freeMemory()) / (8 * 1024));
