@@ -21,42 +21,54 @@ public class Solution {
     public static List<LineItem> lines = new ArrayList<LineItem>();
 
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        BufferedReader reader1 = new BufferedReader(new FileReader(reader.readLine()));
-        BufferedReader reader2 = new BufferedReader(new FileReader(reader.readLine()));
-//        Сделать ввод с консоли
-        collate(reader1, reader2);
-        reader.close();
-        reader1.close();
-        reader2.close();
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+        String oldFileName = console.readLine();
+        String newFileName = console.readLine();
+        console.close();
+
+        List<String> oldFileLines = readFileLines(oldFileName);
+        List<String> newFileLines = readFileLines(newFileName);
+
+        int oldFileLine = 0;
+        int newFileLine = 0;
+
+        while ((oldFileLine < oldFileLines.size()) && (newFileLine < newFileLines.size())) {
+
+            if (oldFileLines.get(oldFileLine).equals(newFileLines.get(newFileLine))) {
+                lines.add(new LineItem(Type.SAME, oldFileLines.get(oldFileLine)));
+                oldFileLine++;
+                newFileLine++;
+            } else if ((newFileLine + 1 < newFileLines.size()) && oldFileLines.get(oldFileLine).equals(newFileLines.get(newFileLine + 1))) {
+                lines.add(new LineItem(Type.ADDED, newFileLines.get(newFileLine)));
+                newFileLine++;
+            } else if ((oldFileLine + 1 < oldFileLines.size()) && oldFileLines.get(oldFileLine + 1).equals(newFileLines.get(newFileLine))) {
+                lines.add(new LineItem(Type.REMOVED, oldFileLines.get(oldFileLine)));
+                oldFileLine++;
+            }
+        }
+
+        while (oldFileLine < (oldFileLines.size())) {
+            lines.add(new LineItem(Type.REMOVED, oldFileLines.get(oldFileLine)));
+            oldFileLine++;
+        }
+        while (newFileLine < (newFileLines.size())) {
+            lines.add(new LineItem(Type.ADDED, newFileLines.get(newFileLine)));
+            newFileLine++;
+        }
     }
 
-    private static void collate(BufferedReader reader1, BufferedReader reader2) throws IOException {
-        ArrayList<String> list1 = new ArrayList<>();//?
-        ArrayList<String> list2 = new ArrayList<>();//?
-        while (reader1.ready()) {
-            list1.add(reader1.readLine());
-        }
-        while (reader2.ready()) {
-            list2.add(reader2.readLine());
-        }
-//        for (int i = 0; i < list2.size(); i++){
-//            if (list1.get(i).equals(list2.get(i))){
-//                lines.add(new LineItem(Type.SAME, list1.get(i)));
-//                list2.set(i, null);
-//            } else if (!list1.get(i).equals(list2.get(i)) && list1.get(i).equals(list2.get(i + 1))) {
-//                lines.add(new LineItem(Type.ADDED, list2.get(i)));
-//                list2.remove(i);
-//            } else if (!list1.get(i).equals(list2.get(i)) && !list1.get(i).equals(list2.get(i + 1))) {
-//                lines.add(new LineItem(Type.REMOVED, list1.get(i)));
-//                list2.add(0 , null);
-//            }
-//        }
 
-        lines.forEach(s -> System.out.println(s.type + " " + s.line));
 
+    static List<String> readFileLines(String fileName) throws IOException {
+        BufferedReader fReader = new BufferedReader(new FileReader(fileName));
+        List<String> fileLines = new ArrayList<String>();
+        String line;
+        while ((line = fReader.readLine()) != null) {
+            fileLines.add(line);
+        }
+        fReader.close();
+        return fileLines;
     }
-
 
     public static enum Type {
         ADDED,        //добавлена новая строка
