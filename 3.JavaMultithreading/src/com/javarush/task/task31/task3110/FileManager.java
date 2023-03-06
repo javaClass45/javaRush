@@ -1,13 +1,13 @@
 package com.javarush.task.task31.task3110;
 
-import java.util.*;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
-
     private Path rootPath;
     private List<Path> fileList;
 
@@ -39,5 +39,4 @@ public class FileManager {
             }
         }
     }
-
 }
