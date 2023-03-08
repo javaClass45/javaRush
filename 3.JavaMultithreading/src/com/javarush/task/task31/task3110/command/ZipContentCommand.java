@@ -4,7 +4,7 @@ import com.javarush.task.task31.task3110.ConsoleHelper;
 import com.javarush.task.task31.task3110.FileProperties;
 import com.javarush.task.task31.task3110.ZipFileManager;
 
-import java.util.*;
+import java.util.List;
 
 public class ZipContentCommand extends ZipCommand {
     @Override
