@@ -12,6 +12,8 @@ public class Advertisement {
     //количество оплаченных показов
     private int hits;
 
+
+
     //продолжительность в секундах
     private int duration;
 
@@ -29,6 +31,10 @@ public class Advertisement {
         }
     }
 
+    public int getHits() {
+        return hits;
+    }
+
     public String getName() {
         return name;
     }
@@ -39,5 +45,12 @@ public class Advertisement {
 
     public long getAmountPerOneDisplaying() {
         return amountPerOneDisplaying;
+    }
+
+    public void revalidate() {
+        if (hits == 0) {
+            throw new UnsupportedOperationException();
+        }
+        hits--;
     }
 }
