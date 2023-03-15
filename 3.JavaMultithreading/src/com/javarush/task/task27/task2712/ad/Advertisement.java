@@ -12,8 +12,6 @@ public class Advertisement {
     //количество оплаченных показов
     private int hits;
 
-
-
     //продолжительность в секундах
     private int duration;
 
@@ -29,10 +27,6 @@ public class Advertisement {
         if (hits > 0) {
             amountPerOneDisplaying = initialAmount / hits;
         }
-    }
-
-    public int getHits() {
-        return hits;
     }
 
     public String getName() {
@@ -52,5 +46,9 @@ public class Advertisement {
             throw new UnsupportedOperationException();
         }
         hits--;
+    }
+
+    public boolean isActive() {
+        return hits > 0;
     }
 }
