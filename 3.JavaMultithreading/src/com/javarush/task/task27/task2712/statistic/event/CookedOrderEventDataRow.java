@@ -20,4 +20,6 @@ public class CookedOrderEventDataRow implements EventDataRow {
         this.cookingDishes = cookingDishes;
         this.currentDate = new Date();
     }
+
+
 }
