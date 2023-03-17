@@ -9,7 +9,11 @@ import java.util.HashMap;
 
 
 public class StatisticManager {
-    private StatisticStorage statisticStorage=new StatisticStorage();
+    private static StatisticManager ourInstance = new StatisticManager();
+
+
+
+    private StatisticStorage statisticStorage = new StatisticStorage();
 
     private StatisticManager() {
     }
@@ -19,10 +23,13 @@ public class StatisticManager {
     }
 
     public void register(EventDataRow data) {
-
+        if (data == null) return;
+        statisticStorage.put(data);
 
     }
-
+//    public void register(EventDataRow data) {
+//        this.statisticStorage.put(data);
+//    }
     private static class InstanceHolder {
 
         private static StatisticManager statisticManager = new StatisticManager();
@@ -31,20 +38,19 @@ public class StatisticManager {
     private class StatisticStorage {
         private Map<EventType, List<EventDataRow>> storage = new HashMap<>();
 
-        public StatisticStorage() {
-            for (EventType eventType:EventType.values())
-                storage.put(eventType,new ArrayList<EventDataRow>());
+        private StatisticStorage() {
+            for (EventType type : EventType.values()) {
+                this.storage.put(type, new ArrayList<EventDataRow>());
+            }
         }
-//
-//        private void put(EventDataRow data) {
-//            if (data == null) return;
-//            storage.get(data.getType()).add(data);
-//        }
-//
-//        private List<EventDataRow> get(EventType eventType)
-//        {
-//            return storage.get(eventType);
-//        }
+
+        private void put(EventDataRow data) {
+            EventType type = data.getType();
+            if (!this.storage.containsKey(type))
+                throw new UnsupportedOperationException();
+
+            this.storage.get(type).add(data);
+        }
     }
 
 
