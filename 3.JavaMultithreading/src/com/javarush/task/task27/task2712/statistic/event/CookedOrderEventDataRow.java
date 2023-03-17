@@ -24,15 +24,15 @@ public class CookedOrderEventDataRow implements EventDataRow {
 //        return cookName;
 //    }
 //
-//    @Override
-//    public Date getDate() {
-//        return currentDate;
-//    }
-//
-//    @Override
-//    public int getTime() {
-//        return cookingTimeSeconds;
-//    }
+    @Override
+    public Date getDate() {
+        return currentDate;
+    }
+
+    @Override
+    public int getTime() {
+        return cookingTimeSeconds;
+    }
 
     @Override
     public EventType getType() {
