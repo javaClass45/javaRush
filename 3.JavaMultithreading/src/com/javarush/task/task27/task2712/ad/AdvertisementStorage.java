@@ -4,13 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AdvertisementStorage {
-    private static class InstanceHolder {
-        private static final AdvertisementStorage ourInstance = new AdvertisementStorage();
-    }
-
-    public static AdvertisementStorage getInstance() {
-        return InstanceHolder.ourInstance;
-    }
 
     private final List<Advertisement> videos = new LinkedList<>();
 
@@ -22,6 +15,17 @@ public class AdvertisementStorage {
         videos.add(new Advertisement(someContent, "Third Video", 400, 2, 10 * 60));     //weight=333
     }
 
+
+
+
+    public static AdvertisementStorage getInstance() {
+        return InstanceHolder.ourInstance;
+    }
+
+    private static class InstanceHolder {
+        private static final AdvertisementStorage ourInstance = new AdvertisementStorage();
+    }
+
     public List<Advertisement> list() {
         return videos;
     }
@@ -29,4 +33,5 @@ public class AdvertisementStorage {
     public void add(Advertisement advertisement) {
         videos.add(advertisement);
     }
+
 }

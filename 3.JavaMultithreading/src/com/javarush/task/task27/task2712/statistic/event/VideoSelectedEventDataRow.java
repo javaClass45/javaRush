@@ -2,8 +2,8 @@ package com.javarush.task.task27.task2712.statistic.event;
 
 import com.javarush.task.task27.task2712.ad.Advertisement;
 
-import java.util.*;
 import java.util.Date;
+import java.util.List;
 
 public class VideoSelectedEventDataRow implements EventDataRow {
     private long amount;
@@ -18,6 +18,10 @@ public class VideoSelectedEventDataRow implements EventDataRow {
         this.currentDate = new Date();
     }
 
+    @Override
+    public EventType getType() {
+        return EventType.SELECTED_VIDEOS;
+    }
 
     @Override
     public Date getDate() {
@@ -29,8 +33,7 @@ public class VideoSelectedEventDataRow implements EventDataRow {
         return totalDuration;
     }
 
-    @Override
-    public EventType getType() {
-        return EventType.SELECTED_VIDEOS;
+    public long getAmount() {
+        return amount;
     }
 }

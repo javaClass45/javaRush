@@ -1,6 +1,5 @@
 package com.javarush.task.task27.task2712.statistic.event;
 
-
 import com.javarush.task.task27.task2712.kitchen.Dish;
 
 import java.util.Date;
@@ -20,10 +19,12 @@ public class CookedOrderEventDataRow implements EventDataRow {
         this.cookingDishes = cookingDishes;
         this.currentDate = new Date();
     }
-//    public String getCookName() {
-//        return cookName;
-//    }
-//
+
+    @Override
+    public EventType getType() {
+        return EventType.COOKED_ORDER;
+    }
+
     @Override
     public Date getDate() {
         return currentDate;
@@ -34,9 +35,7 @@ public class CookedOrderEventDataRow implements EventDataRow {
         return cookingTimeSeconds;
     }
 
-    @Override
-    public EventType getType() {
-        return EventType.COOKED_ORDER;
+    public String getCookName() {
+        return cookName;
     }
-
 }
