@@ -19,8 +19,8 @@ public class StatisticAdvertisementManager {
         List<Advertisement> list=new ArrayList<>();
         for (int i = 0; i<advertisementStorage.list().size(); i++)
         {
-//            if (advertisementStorage.list().get(i).getHits()>0)
-//                list.add(advertisementStorage.list().get(i));
+            if (advertisementStorage.list().get(i).getHits()>0)
+                list.add(advertisementStorage.list().get(i));
         }
         return list;
     }
@@ -29,8 +29,8 @@ public class StatisticAdvertisementManager {
         List<Advertisement> list=new ArrayList<>();
         for (int i = 0; i<advertisementStorage.list().size(); i++)
         {
-//            if (advertisementStorage.list().get(i).getHits()<=0)
-//                list.add(advertisementStorage.list().get(i));
+            if (advertisementStorage.list().get(i).getHits()<=0)
+                list.add(advertisementStorage.list().get(i));
         }
         return list;
     }
