@@ -44,6 +44,10 @@ public class Order {
         return dishes.isEmpty();
     }
 
+    protected void initDishes() throws IOException {
+        dishes = ConsoleHelper.getAllDishesForOrder();
+    }
+
     public int getTotalCookingTime() {
         int cookingTime = 0;
         for (Dish dish : dishes) {
