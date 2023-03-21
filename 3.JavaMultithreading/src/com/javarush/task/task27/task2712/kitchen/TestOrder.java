@@ -10,12 +10,15 @@ public class TestOrder extends Order {
         super(tablet);
     }
 
-    @Override
     protected void initDishes() throws IOException {
-        dishes = new ArrayList<>();
-        int countOfDishes = (int) (Math.random() * Dish.values().length);
-        for (int i = 0; i < countOfDishes; i++) {
-            dishes.add(Dish.values()[(int) (Math.random() * Dish.values().length)]);
+        this.dishes = new ArrayList<>();
+
+        Dish[] values = Dish.values();
+        int countDishes = (int) (Math.random() * 3 + 2);
+        for (int i = 0; i < countDishes; i++) {
+            int dishIndex = (int) (Math.random() * values.length);
+            dishes.add(values[dishIndex]);
         }
     }
+
 }

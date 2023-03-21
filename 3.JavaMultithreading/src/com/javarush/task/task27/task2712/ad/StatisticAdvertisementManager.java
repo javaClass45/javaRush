@@ -1,37 +1,26 @@
 package com.javarush.task.task27.task2712.ad;
 
-import java.util.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StatisticAdvertisementManager {
     private static StatisticAdvertisementManager ourInstance = new StatisticAdvertisementManager();
-    private AdvertisementStorage advertisementStorage= AdvertisementStorage.getInstance();
+    private AdvertisementStorage storage = AdvertisementStorage.getInstance();
 
     public static StatisticAdvertisementManager getInstance() {
         return ourInstance;
     }
 
     private StatisticAdvertisementManager() {
-
     }
 
-    public List<Advertisement> getActiveVideos() {
-        List<Advertisement> list=new ArrayList<>();
-        for (int i = 0; i<advertisementStorage.list().size(); i++)
-        {
-            if (advertisementStorage.list().get(i).getHits()>0)
-                list.add(advertisementStorage.list().get(i));
+    public List<Advertisement> getVideoSet(boolean isActive) {
+        List<Advertisement> result = new ArrayList<>();
+        for (Advertisement advertisement : storage.list()) {
+            if (!isActive ^ advertisement.isActive()) {
+                result.add(advertisement);
+            }
         }
-        return list;
-    }
-
-    public List<Advertisement> getArchivedVideos() {
-        List<Advertisement> list=new ArrayList<>();
-        for (int i = 0; i<advertisementStorage.list().size(); i++)
-        {
-            if (advertisementStorage.list().get(i).getHits()<=0)
-                list.add(advertisementStorage.list().get(i));
-        }
-        return list;
+        return result;
     }
 }

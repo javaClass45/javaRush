@@ -14,15 +14,18 @@ public class Order {
     }
 
     public Tablet getTablet() {
-
         return tablet;
     }
 
     protected List<Dish> dishes;
 
+    protected void initDishes() throws IOException {
+        this.dishes = ConsoleHelper.getAllDishesForOrder();
+    }
+
     public Order(Tablet tablet) throws IOException {
         this.tablet = tablet;
-        this.dishes = ConsoleHelper.getAllDishesForOrder();
+        initDishes();
         ConsoleHelper.writeMessage(toString());
     }
 
@@ -42,10 +45,6 @@ public class Order {
 
     public boolean isEmpty() {
         return dishes.isEmpty();
-    }
-
-    protected void initDishes() throws IOException {
-        dishes = ConsoleHelper.getAllDishesForOrder();
     }
 
     public int getTotalCookingTime() {

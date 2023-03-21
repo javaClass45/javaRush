@@ -16,8 +16,8 @@ public class DirectorTablet {
         Collections.sort(list);
 
         for (String key : list) {
-            double amount = 1.0 * profitMap.get(key) / 100;
-            System.out.println(key + " - " + String.format(Locale.ENGLISH, "%.2f", amount));
+            long aLong = profitMap.get(key);
+            System.out.println(key + " - " + (aLong / 100) + "." + (aLong % 100));
         }
     }
 
@@ -41,34 +41,31 @@ public class DirectorTablet {
         }
     }
 
-
     public void printActiveVideoSet() {
-        List<Advertisement> activeVideos = StatisticAdvertisementManager.getInstance().getActiveVideos();
-        Collections.sort(activeVideos, new Comparator<Advertisement>()
-        {
+        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(true);
+        Collections.sort(videoSet, new Comparator<Advertisement>() {
             @Override
-            public int compare(Advertisement o1, Advertisement o2)
-            {
-                return o1.getName().compareToIgnoreCase(o2.getName());
+            public int compare(Advertisement o1, Advertisement o2) {
+                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
             }
         });
-        for (Advertisement advertisement : activeVideos) {
-            ConsoleHelper.writeMessage(String.format("%s - %d", advertisement.getName(), advertisement.getHits()));
+
+        for (Advertisement advertisement : videoSet) {
+            System.out.println(advertisement.getName() + " - " + advertisement.getHits());
         }
     }
 
     public void printArchivedVideoSet() {
-        List<Advertisement> archivedVideos = StatisticAdvertisementManager.getInstance().getArchivedVideos();
-        Collections.sort(archivedVideos, new Comparator<Advertisement>()
-        {
+        List<Advertisement> videoSet = StatisticAdvertisementManager.getInstance().getVideoSet(false);
+        Collections.sort(videoSet, new Comparator<Advertisement>() {
             @Override
-            public int compare(Advertisement o1, Advertisement o2)
-            {
-                return o1.getName().compareToIgnoreCase(o2.getName());
+            public int compare(Advertisement o1, Advertisement o2) {
+                return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
             }
         });
-        for (Advertisement advertisement : archivedVideos) {
-            ConsoleHelper.writeMessage(String.format("%s", advertisement.getName()));
+
+        for (Advertisement advertisement : videoSet) {
+            System.out.println(advertisement.getName());
         }
     }
 }
