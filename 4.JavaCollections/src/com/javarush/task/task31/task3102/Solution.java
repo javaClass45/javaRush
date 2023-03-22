@@ -23,7 +23,7 @@ public class Solution {
             File current = files.pop();
 
             if (current.isDirectory()) {
-                
+
                 for (File f : current.listFiles())
                     files.push(f);
             }
