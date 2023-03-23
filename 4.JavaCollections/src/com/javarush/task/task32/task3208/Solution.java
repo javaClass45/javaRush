@@ -16,7 +16,7 @@ public class Solution {
     public static Registry registry;
     public static final String BINDING_NAME1 = "server.cat";
     public static final String BINDING_NAME2 = "server.dog";
-    
+
     // Pretend we're starting an RMI client as the CLIENT_THREAD thread
     public static Thread CLIENT_THREAD = new Thread(new Runnable() {
         @Override
