@@ -4,48 +4,56 @@ package com.javarush.task.task27.task2707;
 Определяем порядок захвата монитора
 */
 
-//not solved
+//  solved
 //Метод isLockOrderNormal должен возвращать true в случае, если синхронизация в методе
 // someMethodWithSynchronizedBlocks происходит сначала по объекту o1, а потом по o2.
 
 public class Solution {
     public void someMethodWithSynchronizedBlocks(Object obj1, Object obj2) {
-
         synchronized (obj1) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ignored) {
-            }
-
             synchronized (obj2) {
                 System.out.println(obj1 + " " + obj2);
             }
         }
     }
 
+    private static volatile boolean flag = false;
+    private static volatile boolean isInnerThreadBlocked = false;
+
     public static boolean isLockOrderNormal(final Solution solution,
                                             final Object o1,
                                             final Object o2) throws Exception {
         //do something here
-
-        solution.someMethodWithSynchronizedBlocks(o1, o2);
-        Thread t1 = new Thread() {
-            public void run() {
-                synchronized (o1) {
-                    synchronized (o2) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (Exception e) {
+        synchronized (o1) {
+            Thread outerThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Thread innerThread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            solution.someMethodWithSynchronizedBlocks(o1, o2);
                         }
+                    });
+                    innerThread.start();
+
+                    while (innerThread.getState() != Thread.State.BLOCKED) ;
+                    isInnerThreadBlocked = true;
+                    synchronized (o2) {
+                        flag = true;
                     }
                 }
-            }
-        };
-        t1.start();
+            });
+            outerThread.setDaemon(true);
+            outerThread.start();
 
-        if (Thread.State.BLOCKED.equals(t1.getState())) {
-            return true;
-        } else return false;
+            while (!isInnerThreadBlocked) {
+                Thread.sleep(1);
+            }
+            while (outerThread.getState() != Thread.State.BLOCKED && outerThread.isAlive()) {
+                Thread.sleep(1);
+            }
+        }
+        return flag;
     }
 
     public static void main(String[] args) throws Exception {
