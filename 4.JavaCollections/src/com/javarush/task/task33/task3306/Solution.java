@@ -61,7 +61,7 @@ public class Solution {
         public int age;
         public int weight;
     }
-    
+
     @XmlRootElement
     @XmlType(name = "dog")
     public static class Dog extends Pet {
