@@ -14,19 +14,19 @@ public class Field {
 
 
 
-    void print() {
+    public void print() {
 
     }
 
-    void removeFullLines() {
+    public void removeFullLines() {
 
     }
 
-    Integer getValue(int x, int y) {
+    public Integer getValue(int x, int y) {
         return null;
     }
 
-    void setValue(int x, int y, int value) {
+    public void setValue(int x, int y, int value) {
 
     }
 
