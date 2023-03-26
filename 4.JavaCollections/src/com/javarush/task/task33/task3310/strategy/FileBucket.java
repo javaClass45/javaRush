@@ -1,6 +1,5 @@
 package com.javarush.task.task33.task3310.strategy;
 
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
