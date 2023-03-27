@@ -1,6 +1,5 @@
 package com.javarush.task.task28.task2810.model;
 
-
 import com.javarush.task.task28.task2810.vo.Vacancy;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -62,4 +61,3 @@ public class HabrCareerStrategy implements Strategy {
                 .get();
     }
 }
-
