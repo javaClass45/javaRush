@@ -14,7 +14,7 @@ public class Solution {
         games.add(new Basketball());
         games.add(new Tennis());
 
-        for (Game game : games) {
+        for(Game game : games) {
             game.run();
             System.out.println("---------------------------------------------");
         }
